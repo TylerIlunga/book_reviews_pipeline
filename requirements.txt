@@ -6,3 +6,6 @@ flask
 flask-restful
 fsspec
 s3fs
+wheel
+setuptools
+psycopg2

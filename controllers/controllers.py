@@ -24,9 +24,10 @@ class RunPipeline(Resource):
         # 1) Pull data from online source that can give us more data on books based on their isbn
         google_book_data = []
         for isbn in book_data_tables["Books"]['ISBN'].tolist():
-            google_book_data.append(fetch_more_book_data(str(isbn)))
-        for data in google_book_data:
-            print("****DATA****:", data)
+            more_book_data = fetch_more_book_data(str(isbn))
+            print("Additional book data received:", more_book_data)
+            google_book_data.append(more_book_data)
+        print("TOTAL google_book_data:", len(google_book_data))
         # 2) Add that data to CSV table (1) Total revenue made off of book, (2) Total money spent on books per user
         merge_book_data(book_data_tables, google_book_data)
 

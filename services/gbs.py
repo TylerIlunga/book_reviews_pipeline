@@ -10,11 +10,29 @@ class GoogleBooksService():
         print("ISBN:",isbn, self.link)
         gcp_config = get_config()["gcp"]
         link = self.link + "?q=isbn:{}&key={}".format(isbn, gcp_config["gb_api_key"])
+        print("fetching data from link:", link)
         res = request("GET", link)
         resJSON = res.json()
-        # print("book_data", book_data)
+        print("resJSON", resJSON)
+        if ("items" not in resJSON or len(resJSON["items"]) == 0):
+            print("no 'items' key in JSON res:", resJSON.keys())
+            return {}
         book_data = resJSON["items"][0] 
         # print("book_data:", book_data)
+        sale_info = {}
+        search_info = {}
+        volume_info = {}
+        if ("saleInfo" in book_data):
+            sale_info = book_data["saleInfo"]
+        if ("searchInfo" in book_data):
+            search_info = book_data["searchInfo"]
+        if ("volumeInfo" in book_data):
+            volume_info = book_data["volumeInfo"]
+
+        print("sale_info:", sale_info)
+        print("search_info:", search_info)
+        print("volume_info:", volume_info)
+
         # authors = book_data["volumeInfo"]["authors"]
         # print("\nTitle:", book_data["volumeInfo"]["title"])
         # print("\nSummary:\n")
@@ -25,8 +43,13 @@ class GoogleBooksService():
         # print("\nLanguage:", book_data["volumeInfo"]["language"])
         # print("\n***")
         return {
-            "saleInfo": book_data["saleInfo"],
-            "searchInfo": book_data["searchInfo"],
-            "volumeInfo": book_data["volumeInfo"],
+            "ISBN": isbn,
+            "saleInfo": sale_info,
+            "searchInfo": search_info,
+            "volumeInfo": volume_info,
         }
 
+
+
+# GBS = GoogleBooksService()
+# print("GBS res:", GBS.getBookDataByISBN(isbn="0030119537"))

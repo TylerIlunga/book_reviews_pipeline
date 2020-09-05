@@ -13,7 +13,14 @@ config = {
             "aws_secret_access_key": os.getenv('aws_secret_access_key_id'),
         },
         "gcp": {
-            "gb_api_key": "AIzaSyC7jWti_dhdFrocUbARikM3B_DHHpQNN-k",
+            "gb_api_key": os.getenv("gcp_books_api_key"),
+        },
+        "psql": {
+            "user": os.getenv("psql_user"),
+            "pass": os.getenv("psql_pass"),
+            "database": os.getenv("psql_database"),
+            "host": os.getenv("psql_host"),
+            "port": os.getenv("psql_port"),
         },
         "port": os.getenv("port"),
     }
