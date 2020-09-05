@@ -4,6 +4,8 @@ import io
 from config.config import get_config
 
 from services.gbs import GoogleBooksService
+from services.database import DatabaseService
+from database.queries import QueryBuilder
 
 GBS = GoogleBooksService()
 
@@ -38,6 +40,19 @@ def merge_book_data(book_data_tables, google_book_data):
             print ("ADD NEW COLUMNS")
 
 
-def persist_transformed_data(table_data):
+def persist_transformed_data(table, table_data):
     print("persist_transformed_data()")
+    DBS = DatabaseService()
+    QB = QueryBuilder()
+
+    DBS.connect()
+    
+    query = QB.persist_data_frame(table, table_data)
+    print("query:", query)
+
+    record_set_df = DBS.execute(query)
+    print("record_set_df:", record_set_df)
+
+    print("success")
+
     

@@ -32,12 +32,15 @@ class DatabaseService:
                 record_set = pd.DataFrame(cursor.fetchall()) 
         except (Exception, psycopg2.DatabaseError) as error :
             print ("Error while creating PostgreSQL table", error)
+            self.conn.rollback()
+            cursor.close()
         # finally:
             #closing database connection.
             # if(self.conn):
             #     cursor.close()
             #     self.conn.close()
             #     print("PostgreSQL connection is closed")
+        cursor.close()
         return record_set
 
 

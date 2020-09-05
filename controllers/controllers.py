@@ -40,7 +40,10 @@ class RunPipeline(Resource):
             "users": users_table_data,
             "book_ratings": book_ratings_table_data
         }
-        persist_transformed_data(table_data)
+
+        for table in table_data.keys():
+            print("table_data table:", table)
+            persist_transformed_data(table, table_data[table])
 
 
         return {"error": False}
