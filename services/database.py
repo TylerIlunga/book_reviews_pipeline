@@ -31,7 +31,7 @@ class DatabaseService:
             if cursor.rowcount > 0:
                 record_set = pd.DataFrame(cursor.fetchall()) 
         except (Exception, psycopg2.DatabaseError) as error :
-            print ("Error while creating PostgreSQL table", error)
+            print ("Error while creating PostgreSQL table:", error)
             self.conn.rollback()
             cursor.close()
         # finally:

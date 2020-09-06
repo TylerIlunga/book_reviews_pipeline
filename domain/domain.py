@@ -44,7 +44,10 @@ def updated_book_data_table(books_df):
     return books_df
 
 def assign_new_value_to_column(column, gbs_data_key, gbs_data, record):
+    print("assign_new_value_to_column()")
+    print("gbs_data_key, gbs_data:", gbs_data_key, gbs_data)
     if gbs_data_key in gbs_data and column in gbs_data[gbs_data_key]:
+        print("column, gbs_data[gbs_data_key]:", column, gbs_data[gbs_data_key])
         if (type(gbs_data[gbs_data_key][column]) == list):
             gbs_data[gbs_data_key][column] = ','.join(gbs_data[gbs_data_key][column])
         print("record[column.capitalize()]:", record[column.capitalize()])
@@ -61,7 +64,7 @@ def merge_book_data(book_data_tables, google_book_data):
         if "ISBN" in gbs_data and "ISBN" in book_df:
             book_records = book_df.loc[book_df["ISBN"] == gbs_data["ISBN"]] # Check logs for columns
         print("book_records:", len(book_records), book_records)
-        if len(book_records) != 0:
+        if len(book_records) != -1:
             # ADD NEW COLUMNS
             # "saleInfo": country(str), isEbook(bool) saleability(str)
             print ("ADD NEW COLUMNS")
