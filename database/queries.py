@@ -15,12 +15,12 @@ class QueryBuilder:
         return 'SELECT * from books;'
     def get_all_users(self):
         return 'SELECT * from users;'
-    def persist_data_frame(self, table, data_frame):
+    def persist_data_frame(self, table, data_frame, record_index):
         print("persist_data_frame()") # books, users, reviews (tables)
         cols = data_frame.columns.values.tolist()
         values = []
         for col in cols:
-            values.append(f"'{data_frame.iloc[0][col]}'") # values to populate cell (index n-m)
+            values.append(f"'{data_frame.iloc[record_index][col]}'") # values to populate cell (index n-m)
         query = (table, convert_tuple(cols), convert_tuple(values))
         print("query(post):", query)
         for index in data_frame.index:

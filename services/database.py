@@ -44,19 +44,49 @@ class DatabaseService:
         return record_set
 
 
-# DBS = DatabaseService()
-# DBS.connect()
-# statement0 = """CREATE TABLE users (
-#         id INT PRIMARY KEY,
-#         email TEXT NOT NULL
-#     );"""
-# df0 = DBS.execute(statement0)
-# print("df0:", df0)
-# statement1 = "SELECT * from users;"
-# df1 = DBS.execute(statement1)
-# statement1 = "INSERT INTO users VALUES (1, 't@x.com');"
-# df1 = DBS.execute(statement1)
-# statement1 = "SELECT * from users;"
-# df1 = DBS.execute(statement1)
-# print("df1:", df1)
+DBS = DatabaseService()
+DBS.connect()
+statement0 = """CREATE TABLE users (
+        UserID TEXT PRIMARY KEY,
+        Location TEXT NOT NULL,
+        Age TEXT NOT NULL
+    );"""
+statement1 = """CREATE TABLE books (
+        ISBN TEXT PRIMARY KEY,
+        BookTitle TEXT NOT NULL,
+        BookAuthor TEXT NOT NULL,
+        YearOfPublication TEXT NOT NULL,
+        ImageURLS TEXT NOT NULL,
+        ImageURLM TEXT NOT NULL,
+        ImageURLL TEXT NOT NULL,
+        Country TEXT NOT NULL,
+        Isebook TEXT NOT NULL,
+        Authors  TEXT NOT NULL,
+        Description TEXT NOT NULL,
+        Canonicalvolumelink TEXT NOT NULL,
+        Categories TEXT NOT NULL,
+        Language  TEXT NOT NULL,
+        Pagecount TEXT NOT NULL,
+        Publisheddate TEXT NOT NULL,
+        Publisher TEXT NOT NULL
+    );"""
+statement2 = """CREATE TABLE bookratings (
+        UserID TEXT NOT NULL,
+        ISBN TEXT NOT NULL,
+        BookRating TEXT NOT NULL
+    );"""
+
+df0 = DBS.execute(statement0)
+print("df0:", df0)
+df1 = DBS.execute(statement1)
+print("df1:", df1)
+df2 = DBS.execute(statement2)
+print("df2:", df2)
+statement1 = "SELECT * from users;"
+df1 = DBS.execute(statement1)
+statement1 = "INSERT INTO users VALUES (1, 't@x.com');"
+df1 = DBS.execute(statement1)
+statement1 = "SELECT * from users;"
+df1 = DBS.execute(statement1)
+print("df1:", df1)
 
