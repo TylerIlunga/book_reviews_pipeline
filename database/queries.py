@@ -2,6 +2,7 @@
 import pandas as pd
 
 def convert_tuple(tup):
+    tup = [col.lower() for col in tup]
     tuple_str = ', '.join(tup)
     return tuple_str
 

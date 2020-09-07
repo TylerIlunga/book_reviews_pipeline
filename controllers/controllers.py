@@ -16,11 +16,11 @@ class RunPipeline(Resource):
         index = 0
         for df in data_frames:
             if index == 0:
-                book_data_tables["Book-Ratings"] = df[:2] # Top 100
+                book_data_tables["Book-Ratings"] = df[:100]
             elif index == 1:
-                 book_data_tables["Books"] = df[:2]
+                 book_data_tables["Books"] = df[:100] # Top N
             else:
-                 book_data_tables["Users"] = df[:2]
+                 book_data_tables["Users"] = df[:100]
             index = index + 1
         # Transform CSV Data
         # 1) Pull data from online source that can give us more data on books based on their isbn
@@ -35,9 +35,9 @@ class RunPipeline(Resource):
 
         # Load Transform Data into PSQL
         table_data = {
+            "bookratings": book_data_tables["Book-Ratings"],
             "books": book_data_tables["Books"],
-            "users": book_data_tables["Users"],
-            "bookratings": book_data_tables["Book-Ratings"]
+            "users": book_data_tables["Users"]
         }
 
         DBS = DatabaseService()
@@ -45,10 +45,12 @@ class RunPipeline(Resource):
 
         DBS.connect()
 
-        table_data["users"] = table_data["users"].rename(columns = {'User-ID': 'userid'}, inplace = False)
-        table_data["bookratings"] = table_data["bookratings"].rename(columns = {'User-ID': 'userid', 'Book-Rating': 'bookrating'}, inplace = False)
-        table_data["books"] = table_data["books"].rename(columns = {'Book-Title': 'booktitle', 'Book-Author': 'bookauthor', 'Year-Of-Publication ': 'yearofpublication', 'Image-URL-S ': 'imageurls', 'Image-URL-M ': 'imageurlm', 'Image-URL-L ': 'imageurll'}, inplace = False)
+        table_data["users"] = table_data["users"].rename(columns = {'User-ID': 'userid'}, inplace = False, errors='raise')
+        table_data["bookratings"] = table_data["bookratings"].rename(columns = {'User-ID': 'userid', 'Book-Rating': 'bookrating'}, inplace = False, errors='raise')
+        table_data["books"] = table_data["books"].rename(columns = {'Book-Title': 'booktitle', 'Book-Author': 'bookauthor'}, inplace = False, errors='raise')
+        table_data["books"] = table_data["books"].replace("'", "''", regex=True).astype(str)
         print("table_data*****:", table_data)
+        
         for table in table_data.keys():
             print("table_data table:", table)
             print("table_data[table]:", table_data[table])

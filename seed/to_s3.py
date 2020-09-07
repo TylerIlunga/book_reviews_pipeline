@@ -12,6 +12,6 @@ print(s3_client)
 for file in os.listdir('./csv'):
     upload_file_bucket = os.getenv('aws_s3_bucket')
     upload_file_key = os.getenv('aws_s3_file_key') + str(file)
-    s3_client.upload_file('./data/' + file, upload_file_bucket, upload_file_key)
+    s3_client.upload_file('./csv/' + file, upload_file_bucket, upload_file_key)
 
 

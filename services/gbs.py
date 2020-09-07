@@ -33,6 +33,15 @@ class GoogleBooksService():
         print("search_info:", search_info)
         print("volume_info:", volume_info)
 
+        # Strings with apostrophes need to have two single quotes instead of one
+        # book_desc_update = ""
+        # if "description" in book_data["volumeInfo"]:
+        #     book_desc_update = book_data["volumeInfo"]["description"].replace("'", "''")
+        # elif "textSnippet" in book_data["searchInfo"]:
+        #     book_desc_update = book_data["searchInfo"]["textSnippet"].replace("'", "''")
+        
+        # book_data["volumeInfo"]["description"] = book_desc_update
+
         # authors = book_data["volumeInfo"]["authors"]
         # print("\nTitle:", book_data["volumeInfo"]["title"])
         # print("\nSummary:\n")

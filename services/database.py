@@ -46,6 +46,8 @@ class DatabaseService:
 
 DBS = DatabaseService()
 DBS.connect()
+statement0A = "DROP SCHEMA public CASCADE;"
+statement0B = "CREATE SCHEMA public;"
 statement0 = """CREATE TABLE users (
         UserID TEXT PRIMARY KEY,
         Location TEXT NOT NULL,
@@ -53,22 +55,23 @@ statement0 = """CREATE TABLE users (
     );"""
 statement1 = """CREATE TABLE books (
         ISBN TEXT PRIMARY KEY,
-        BookTitle TEXT NOT NULL,
-        BookAuthor TEXT NOT NULL,
-        YearOfPublication TEXT NOT NULL,
-        ImageURLS TEXT NOT NULL,
-        ImageURLM TEXT NOT NULL,
-        ImageURLL TEXT NOT NULL,
-        Country TEXT NOT NULL,
-        Isebook TEXT NOT NULL,
-        Authors  TEXT NOT NULL,
-        Description TEXT NOT NULL,
-        Canonicalvolumelink TEXT NOT NULL,
-        Categories TEXT NOT NULL,
-        Language  TEXT NOT NULL,
-        Pagecount TEXT NOT NULL,
-        Publisheddate TEXT NOT NULL,
-        Publisher TEXT NOT NULL
+        booktitle TEXT NOT NULL,
+        bookauthor TEXT NOT NULL,
+        yearofpublication TEXT NOT NULL,
+        imageURLS TEXT NOT NULL,
+        imageURLM TEXT NOT NULL,
+        imageURLL TEXT NOT NULL,
+        country TEXT NOT NULL,
+        saleability TEXT NOT NULL,
+        isebook TEXT NOT NULL,
+        authors  TEXT NOT NULL,
+        description TEXT NOT NULL,
+        canonicalvolumelink TEXT NOT NULL,
+        categories TEXT NOT NULL,
+        language  TEXT NOT NULL,
+        pagecount TEXT NOT NULL,
+        publisheddate TEXT NOT NULL,
+        publisher TEXT NOT NULL
     );"""
 statement2 = """CREATE TABLE bookratings (
         UserID TEXT NOT NULL,
@@ -76,17 +79,21 @@ statement2 = """CREATE TABLE bookratings (
         BookRating TEXT NOT NULL
     );"""
 
+df0A = DBS.execute(statement0A)
+print("df0A:", df0A)
+df0B = DBS.execute(statement0B)
+print("df0:", df0B)
 df0 = DBS.execute(statement0)
 print("df0:", df0)
 df1 = DBS.execute(statement1)
 print("df1:", df1)
 df2 = DBS.execute(statement2)
 print("df2:", df2)
-statement1 = "SELECT * from users;"
-df1 = DBS.execute(statement1)
-statement1 = "INSERT INTO users VALUES (1, 't@x.com');"
-df1 = DBS.execute(statement1)
-statement1 = "SELECT * from users;"
-df1 = DBS.execute(statement1)
-print("df1:", df1)
+# statement1 = "SELECT * from users;"
+# df1 = DBS.execute(statement1)
+# statement1 = "INSERT INTO users VALUES (1, 't@x.com');"
+# df1 = DBS.execute(statement1)
+# statement1 = "SELECT * from users;"
+# df1 = DBS.execute(statement1)
+# print("df1:", df1)
 
