@@ -1,5 +1,5 @@
 # Settings -> Developer Settings -> Personal Access Tokens
-# testing_pacakges token: 
+# testing_pacakges token: 5f09ff00161da52128e717b8c217b59270683052
 
 # Authenticate && Login:
 # cat ~/GH_TOKEN.txt | docker login docker.pkg.github.com -u TylerIlunga --password-stdin

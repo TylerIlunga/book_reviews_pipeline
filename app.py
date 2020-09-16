@@ -1,10 +1,7 @@
 import pandas as pd
-import os
-import boto3 as aws
-import io
 from config.config import get_config
 from flask import Flask, request
-from flask_restful import reqparse, abort, Api, Resource
+from flask_restful import Api
 from resources.resources import get_resources
 from domain import *
 
@@ -18,6 +15,5 @@ config = get_config()
 
 app.run(
     port=int(config["port"]),
-    debug=True if config["appEnv"] == "debug" else False
+    debug=True if config["app_env"] == "debug" else False
 )
-
