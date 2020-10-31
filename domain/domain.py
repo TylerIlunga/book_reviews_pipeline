@@ -5,15 +5,12 @@ import json
 from kafka import KafkaProducer
 from config.config import get_config
 from services.aws import AWSService
-from services.gbs import GoogleBooksService
 from services.database import DatabaseService
 from database.queries import QueryBuilder
 
 AWS = AWSService()
-GBS = GoogleBooksService()
 
 config = get_config()
-
 
 def collect_book_data_frames():
     print("collect_streams()")
@@ -26,11 +23,6 @@ def collect_book_data_frames():
         df = AWS.pull_data_from_s3_bucket(bucket, data_key, file)
         data_frames.append(df)
     return data_frames
-
-
-def fetch_more_book_data(isbn):
-    print("fetch_more_book_data()")
-    return GBS.getBookDataByISBN(isbn=isbn)
 
 
 def updated_book_data_table(books_df):
@@ -125,11 +117,9 @@ def publish_new_data_to_kafka_topic(book_data_tables):
     bookreviews_public_future = kafka_producer.send(
         'bookratings', json.loads(bookratings_df_json))
     # result = future.get(timeout=60)
-    upf_result = users_public_future.get(timeout=60)
-    bpf_result = books_public_future.get(timeout=60)
-    brpf_result = bookreviews_public_future.get(timeout=60)
-    # Print ACK
-    # print("result:", result)
+    upf_result = users_public_future.get(timeout=10)
+    bpf_result = books_public_future.get(timeout=10)
+    brpf_result = bookreviews_public_future.get(timeout=10)
     print("upf_result:", upf_result)
     print("bpf_result:", bpf_result)
     print("brpf_result:", brpf_result)

@@ -1,7 +1,7 @@
-from controllers.controllers import Ping, RunPipeline
+from controllers.controllers import Ping, LoadBookDataIntoKafka
 
 def get_resources():
     return [
         {"link": Ping, "path": "/ping"},
-        {"link": RunPipeline, "path": "/run"}
+        {"link": LoadBookDataIntoKafka, "path": "/loaddata"}
     ]

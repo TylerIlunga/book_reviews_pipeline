@@ -1,7 +1,6 @@
 import os
-
+import json
 from dotenv import load_dotenv
-from json import dumps
 
 load_dotenv()
 
@@ -17,9 +16,9 @@ config = {
         "gb_api_key": os.getenv("gcp_books_api_key"),
     },
     "kafka": {
-        "topic": "bookdata",
         "bootstrap_servers": os.getenv("kafka_bootstrap_servers"),
-        "value_serializer": lambda x: dumps(x).encode('utf-8'),
+        "value_serializer": lambda x: json.dumps(x).encode('utf-8'),
+        "value_deserializer": lambda x: json.loads(x)
     },
     "psql": {
         "user": os.getenv("psql_user"),
