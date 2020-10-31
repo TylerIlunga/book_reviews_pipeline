@@ -1,5 +1,9 @@
 from kafka import KafkaConsumer
 from config.config import get_config
+from domain.domain import persist_transformed_data
+from services.gbs import DatabaseService
+from services.gbs import QueryBuilder
+
 
 config = get_config()
 kafka_config = config["kafka"]
@@ -46,6 +50,7 @@ class StreamBufferConsumer:
         while True:
             for msg in consumer:
                 print(f"{topic} message: {msg.value}")
+                record_data = msg.value
 
                 # table_data = {
                 #     "bookratings": book_data_tables["Book-Ratings"],
@@ -53,10 +58,30 @@ class StreamBufferConsumer:
                 #     "users": book_data_tables["Users"]
                 # }
 
-                # DBS = DatabaseService()
-                # QB = QueryBuilder()
+                DBS = DatabaseService()
+                QB = QueryBuilder()
 
-                # DBS.connect()
+                DBS.connect()
+
+                if topic == "books":
+                    record_data['booktitle'] = record_data.pop('Book-Title')
+                    record_data['bookauthor'] = record_data.pop('Book-Author')
+                    for key, value in record_data.items():
+                        if value == "'":
+                            record_data[key] = "''"
+                if topic == "bookratings":
+                    record_data['userid'] = record_data.pop('User-ID')
+                    record_data['bookrating'] = record_data.pop('Book-Rating')
+                if topic == "users":
+                    record_data['userid'] = record_data.pop('User-ID')
+                
+                print("******record_data*****:", record_data)
+
+                for table in record_data.keys():
+                    print("record_data table:", table)
+                    print("record_data[table]:", record_data[table])
+                    persist_transformed_data(table, record_data, QB, DBS)
+
 
                 # table_data["users"] = table_data["users"].rename(
                 #     columns={'User-ID': 'userid'}, inplace=False, errors='raise')
