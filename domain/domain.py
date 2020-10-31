@@ -125,11 +125,11 @@ def publish_new_data_to_kafka_topic(book_data_tables):
     print("brpf_result:", brpf_result)
 
 
-def persist_transformed_data(table, table_data, QB, DBS):
+def persist_transformed_data(table, rows, QB, DBS):
     print("persist_transformed_data()")
 
-    for index in table_data[table].index:
-        query = QB.persist_data_frame(table, table_data[table], index)
+    for row in rows:
+        query = QB.persist_data_frame(table, row)
         print("query:", query)
 
         record_set_df = DBS.execute(query)

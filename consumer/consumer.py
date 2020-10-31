@@ -51,13 +51,6 @@ class StreamBufferConsumer:
             for msg in consumer:
                 print(f"{topic} message: {msg.value}")
                 record_data = msg.value
-
-                # table_data = {
-                #     "bookratings": book_data_tables["Book-Ratings"],
-                #     "books": book_data_tables["Books"],
-                #     "users": book_data_tables["Users"]
-                # }
-
                 DBS = DatabaseService()
                 QB = QueryBuilder()
 
@@ -77,26 +70,26 @@ class StreamBufferConsumer:
                 
                 print("******record_data*****:", record_data)
 
-                for table in record_data.keys():
-                    print("record_data table:", table)
-                    print("record_data[table]:", record_data[table])
-                    persist_transformed_data(table, record_data, QB, DBS)
+                num_of_rows = 0
+                rows = []
+                for key in record_data.keys():
+                    num_of_rows = len(record_data[key].keys())
+                    break
+                for row_num in range(num_of_rows):
+                    row = {}
+                    for attribute in record_data.keys():
+                        value = record_data[attribute][str(row_num)]
+                        if value == None:
+                            value = ''
+                        elif type(value) == int or type(value) == float:
+                            value = str(value)
+                        row[attribute.lower()] = value
+                    rows.append(row)
+                
+                print("***rows***:", rows)
+                persist_transformed_data(topic, rows, QB, DBS)
 
-
-                # table_data["users"] = table_data["users"].rename(
-                #     columns={'User-ID': 'userid'}, inplace=False, errors='raise')
-                # table_data["bookratings"] = table_data["bookratings"].rename(
-                #     columns={'User-ID': 'userid', 'Book-Rating': 'bookrating'}, inplace=False, errors='raise')
-                # table_data["books"] = table_data["books"].rename(
-                #     columns={'Book-Title': 'booktitle', 'Book-Author': 'bookauthor'}, inplace=False, errors='raise')
-                # table_data["books"] = table_data["books"].replace(
-                #     "'", "''", regex=True).astype(str)
-                # print("table_data*****:", table_data)
-
-                # for table in table_data.keys():
-                #     print("table_data table:", table)
-                #     print("table_data[table]:", table_data[table])
-                #     persist_transformed_data(table, table_data, QB, DBS)
+                DBS.disconnect()
 
 if __name__ == "__main__":
     consumer = StreamBufferConsumer()

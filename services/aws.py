@@ -14,5 +14,5 @@ class AWSService:
 
     def _get_s3_data_location_uri(self, bucket, data_key, file):
         print("_get_data_location_uri()")
-        return './csv/{}'.format(str(file))  # LOCAL
-        # return 's3://{}/{}'.format(bucket, data_key) # PROD
+        # return './csv/{}'.format(str(file))  # LOCAL
+        return 's3://{}/{}'.format(bucket, data_key) # PROD
