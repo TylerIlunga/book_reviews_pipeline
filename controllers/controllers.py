@@ -19,7 +19,7 @@ class LoadBookDataIntoKafka(Resource):
         data_frames = collect_book_data_frames()
         book_data_tables = {}
         index = 0
-        N = os.getenv("ingest_limit")
+        N = int(os.getenv("ingest_limit"))
         for df in data_frames:
             if index == 0:
                 book_data_tables["Book-Ratings"] = df[:N] # Top N
