@@ -1,8 +1,8 @@
 from kafka import KafkaConsumer
 from config.config import get_config
 from domain.domain import persist_transformed_data
-from services.gbs import DatabaseService
-from services.gbs import QueryBuilder
+from services.database import DatabaseService
+from database.queries import QueryBuilder
 
 
 config = get_config()

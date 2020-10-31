@@ -17,7 +17,7 @@ class QueryBuilder:
     def get_all_users(self):
         return 'SELECT * from users;'
     def persist_data_frame(self, table, data_frame, record_index):
-        print("persist_data_frame()") # books, users, reviews (tables)
+        print("persist_data_frame():", data_frame) # books, users, reviews (tables)
         cols = data_frame.columns.values.tolist()
         values = []
         for col in cols:
