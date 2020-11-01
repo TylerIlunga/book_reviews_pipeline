@@ -1,6 +1,6 @@
 ### About
 
-A simple ETL pipeline using:
+A simple pipeline using:
 
 - Kaggle Book Data
 - AWS S3
